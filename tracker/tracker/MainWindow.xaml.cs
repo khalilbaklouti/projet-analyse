@@ -1,54 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using tracker.Properties;
 
-namespace tracker
+namespace MeetingScheduler
 {
-    /// <summary>
-    /// Logique d'interaction pour MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        // Using "readonly" to indicate that the dictionary is initialized only once
+        private readonly Dictionary<DateTime, List<string>> _employeeAvailability = new Dictionary<DateTime, List<string>>()
+        {
+            { new DateTime(2024, 3, 10), new List<string> { "Alice", "Bob" } },
+            { new DateTime(2024, 3, 11), new List<string> { "Charlie", "Dave" } }
+        };
+
         public MainWindow()
         {
-            Meetings = new ObservableCollection<Meeting>
-            {
-                new Meeting { Title = "Project Kickoff", Attendees = 5, TimeDate = "Monday 10:00 AM" },
-                new Meeting { Title = "Weekly Sync", Attendees = 3, TimeDate = "Wednesday 2:00 PM" },
-                new Meeting { Title = "Client Q&A", Attendees = 4, TimeDate = "Friday 1:00 PM" }
-            };
-            // Assume Schedule is similar and populated accordingly
-            Schedules = new ObservableCollection<Schedule>();
-            // Populate Schedules as necessary
+            InitializeComponent();
+        }
 
-            this.DataContext = this;
-            scheduleDataGrid.ItemsSource = Schedules;
-            meetingSummaryListBox.ItemsSource = Meetings;
+        private void CheckAvailability_Click(object sender, RoutedEventArgs e)
+        {
+            ClearPreviousData(); // Refactored clearing logic into its method for better readability
+
+            DateTime? selectedDate = meetingDate.SelectedDate;
+            string selectedTimeString = meetingTime.Text;
+            if (selectedDate.HasValue && TimeSpan.TryParse(selectedTimeString, out TimeSpan selectedTime))
+            {
+                DisplayMeetingDetails(selectedDate.Value, selectedTime); // Refactored display logic into its method
+                UpdateEmployeeAvailability(selectedDate.Value);
+            }
+            else
+            {
+                MessageBox.Show("Please enter a valid date and time.");
+            }
+        }
+
+        // New method to clear previous selections and details
+        private void ClearPreviousData()
+        {
+            selectedEmployees.Items.Clear();
+            availableEmployees.Items.Clear();
+        }
+
+        // New method to display meeting details
+        private void DisplayMeetingDetails(DateTime selectedDate, TimeSpan selectedTime)
+        {
+            detailsTitle.Text = $"Title: {meetingTitle.Text}";
+            detailsDate.Text = $"Date: {selectedDate:yyyy-MM-dd}";
+            detailsTime.Text = $"Time: {selectedTime}";
+        }
+
+        // New method to update employee availability based on the selected date
+        private void UpdateEmployeeAvailability(DateTime selectedDate)
+        {
+            if (_employeeAvailability.TryGetValue(selectedDate, out List<string> employees))
+            {
+                foreach (var employeeName in employees)
+                {
+                    availableEmployees.Items.Add(new Employee { Name = employeeName });
+                }
+            }
+            else
+            {
+                availableEmployees.Items.Add(new Employee { Name = "No employees available" });
+            }
+        }
+
+        private void AvailableEmployees_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (Employee employee in e.AddedItems)
+            {
+                selectedEmployees.Items.Add(employee);
+            }
         }
     }
 
-    public class Meeting
+    public class Employee
     {
-        public string Title { get; set; }
-        public int Attendees { get; set; }
-        public string TimeDate { get; set; }
-    }
-
-    public class Schedule
-    {
-        // Define properties for Schedule
+        public string Name { get; set; }
     }
 }

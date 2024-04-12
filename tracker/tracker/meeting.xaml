@@ -1,45 +1,52 @@
-﻿<Page x:Class="tracker.meeting"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:tracker"
-      mc:Ignorable="d" 
-       Title="Meeting Scheduler" Height="600" Width="900">
-    <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+﻿<Window x:Class="ScheduleApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Weekly Schedule with Sidebar" Height="800" Width="1000">
 
-        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="5">
-            <TextBox x:Name="meetingTitle" Width="300" Margin="5" PlaceholderText="Enter meeting title"/>
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <DatePicker x:Name="meetingDate" Margin="5"/>
-                <TimePicker x:Name="meetingTime" Margin="5"/>
-                <!-- TimePicker may need a custom control or a ComboBox -->
-                <Button Content="Check Availability" Click="CheckAvailability_Click" Margin="5"/>
-            </StackPanel>
-        </StackPanel>
+    <Grid>
+        <!-- Layout Grid with two columns -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-        <ListBox x:Name="availableEmployees" Grid.Row="1" Margin="5">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Name}" Margin="5"/>
-                        <Button Content="Select" Command="{Binding SelectCommand}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
+        <!-- Sidebar -->
+        <ListBox Grid.Column="0" Background="#007bff" Foreground="White">
+            <ListBoxItem>👤 Add Employee</ListBoxItem>
+            <ListBoxItem>📅 Schedule a Meeting</ListBoxItem>
+            <ListBoxItem>📆 Final Calendar</ListBoxItem>
         </ListBox>
 
-        <StackPanel Grid.Row="2" Orientation="Vertical" Margin="5">
-            <TextBlock x:Name="detailsTitle"/>
-            <TextBlock x:Name="detailsDate"/>
-            <TextBlock x:Name="detailsTime"/>
-            <TextBlock Text="Selected Employees:"/>
-            <ListBox x:Name="selectedEmployees" Margin="5"/>
+        <!-- Main Content Area -->
+        <StackPanel Grid.Column="1" Margin="20">
+            <TextBlock Text="Employee Schedule" FontWeight="Bold" FontSize="18" />
+
+            <!-- Form for adding employee availability -->
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBox Width="120" Margin="5" Text="Employee name" />
+                <ComboBox Width="100" Margin="5">
+                    <ComboBoxItem Content="Monday"/>
+                    <ComboBoxItem Content="Tuesday"/>
+                    <!-- Other ComboBoxItems -->
+                </ComboBox>
+                <TextBox Width="60" Margin="5" Text="Start Time"/>
+                <TextBox Width="60" Margin="5" Text="End Time"/>
+                <Button Content="Add Availability" Margin="5" />
+                <Button Content="Not Available" Margin="5" />
+            </StackPanel>
+            <!-- Schedule Table -->
+            <DataGrid AutoGenerateColumns="False" CanUserAddRows="True" Margin="10">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Width="100"/>
+                    <DataGridTextColumn Header="Tuesday" Width="*"/>
+                    <DataGridTextColumn Header="Wednesday" Width="*"/>
+                    <DataGridTextColumn Header="Thursday" Width="*"/>
+                    <DataGridTextColumn Header="Friday" Width="*"/>
+                    <DataGridTextColumn Header="Saturday" Width="*"/>
+                    <DataGridTextColumn Header="Sunday" Width="*"/>
+                    <!-- Other columns -->
+                </DataGrid.Columns>
+            </DataGrid>
         </StackPanel>
     </Grid>
-</Page>
+</Window>

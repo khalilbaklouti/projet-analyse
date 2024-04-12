@@ -13,3 +13,12 @@ C:\Users\Info\source\repos\tracker\tracker\obj\Debug\tracker.csproj.GenerateReso
 C:\Users\Info\source\repos\tracker\tracker\obj\Debug\tracker.csproj.CoreCompileInputs.cache
 C:\Users\Info\source\repos\tracker\tracker\obj\Debug\tracker.exe
 C:\Users\Info\source\repos\tracker\tracker\obj\Debug\tracker.pdb
+C:\Users\user\Desktop\projet-analyse\tracker\tracker\obj\Debug\tracker.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\projet-analyse\tracker\tracker\obj\Debug\tracker.csproj.SuggestedBindingRedirects.cache
+C:\Users\user\Desktop\projet-analyse\tracker\tracker\obj\Debug\MainWindow.g.cs
+C:\Users\user\Desktop\projet-analyse\tracker\tracker\obj\Debug\weeklyschedule.g.cs
+C:\Users\user\Desktop\projet-analyse\tracker\tracker\obj\Debug\App.g.cs
+C:\Users\user\Desktop\projet-analyse\tracker\tracker\obj\Debug\tracker_MarkupCompile.cache
+C:\Users\user\Desktop\projet-analyse\tracker\tracker\obj\Debug\tracker_MarkupCompile.lref
+C:\Users\user\Desktop\projet-analyse\tracker\tracker\obj\Debug\tracker.exe
+C:\Users\user\Desktop\projet-analyse\tracker\tracker\obj\Debug\tracker.pdb

@@ -1,67 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace tracker
+namespace ScheduleApp
 {
-    /// <summary>
-    /// Logique d'interaction pour meeting.xaml
-    /// </summary>
-    public partial class meeting : Page
+    public partial class MainWindow : Window
     {
-        public ObservableCollection<Employee> AvailableEmployees { get; set; } = new ObservableCollection<Employee>();
-        public ObservableCollection<string> SelectedEmployees { get; set; } = new ObservableCollection<string>();
+        // Assume you have a ScheduleEntry class that represents an entry in the DataGrid
+        public ObservableCollection<ScheduleEntry> ScheduleEntries { get; } = new ObservableCollection<ScheduleEntry>();
 
-        public meeting()
+        public MainWindow()
         {
             InitializeComponent();
-
-            InitializeComponent();
-            availableEmployees.ItemsSource = AvailableEmployees;
-            selectedEmployees.ItemsSource = SelectedEmployees;
+            // Set the DataContext for the window to allow for data binding
+            DataContext = this;
         }
 
-        private void CheckAvailability_Click(object sender, RoutedEventArgs e)
+        // Event handler for the 'Add Availability' button
+        private void AddAvailability_Click(object sender, RoutedEventArgs e)
         {
-            // Simulate checking availability based on selected date and time
-            AvailableEmployees.Clear();
-            var employees = new[] { "Alice", "Bob", "Charlie", "Dave" }; // Example employees, replace with actual data retrieval
+            // Get the input values from the form
+            string employeeName = employeeNameTextBox.Text;
+            string selectedDay = ((ComboBoxItem)dayComboBox.SelectedItem)?.Content?.ToString();
+            string startTime = startTimeTextBox.Text;
+            string endTime = endTimeTextBox.Text;
 
-            foreach (var employee in employees)
+            // Validate inputs (omitted for brevity)
+
+            // Add a new entry to the collection which will update the DataGrid
+            ScheduleEntries.Add(new ScheduleEntry
             {
-                AvailableEmployees.Add(new Employee { Name = employee, SelectCommand = new RelayCommand(() => SelectEmployee(employee)) });
-            }
+                Name = employeeName,
+                Day = selectedDay,
+                StartTime = startTime,
+                EndTime = endTime
+            });
 
-            // Update meeting details
-            detailsTitle.Text = "Title: " + meetingTitle.Text;
-            detailsDate.Text = "Date: " + meetingDate.SelectedDate?.ToString("yyyy-MM-dd");
-            detailsTime.Text = "Time: " + meetingTime.Value?.ToString(@"hh\:mm"); // Adjust format as needed
+            // Clear the form inputs
+            ClearFormInputs();
         }
 
-        private void SelectEmployee(string name)
+        // Event handler for the 'Not Available' button
+        private void MarkNotAvailable_Click(object sender, RoutedEventArgs e)
         {
-            SelectedEmployees.Add(name);
-            // Optionally, remove the employee from AvailableEmployees if they should not be reselected
+            // Implement the logic to mark an employee as not available
+            // This is typically based on the selected row in the DataGrid
+        }
+
+        // Helper method to clear the input fields
+        private void ClearFormInputs()
+        {
+            employeeNameTextBox.Clear();
+            dayComboBox.SelectedIndex = -1; // Reset the ComboBox selection
+            startTimeTextBox.Clear();
+            endTimeTextBox.Clear();
+        }
+
+        // Define the ScheduleEntry class
+        public class ScheduleEntry
+        {
+            public string Name { get; set; }
+            public string Day { get; set; }
+            public string StartTime { get; set; }
+            public string EndTime { get; set; }
+            // You can add additional properties for other days of the week
         }
     }
-
-    public class Employee
-    {
-        public string Name { get; set; }
-        public RelayCommand SelectCommand { get; set; }
-    }
-
-    // Implementation of RelayCommand omitted for brevity, use your preferred ICommand implementation
 }
