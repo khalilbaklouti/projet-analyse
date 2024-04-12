@@ -1,58 +1,32 @@
-﻿<Page x:Class="tracker.weeklyschedule"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:tracker"
-      mc:Ignorable="d" 
-     Title="Weekly Schedule with Sidebar" Height="900" Width="1200">
-    </Page>
-    <Window.Resources>
-        <Style TargetType="Button" x:Key="SidebarButtonStyle">
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Background" Value="#007bff"/>
-            <Setter Property="BorderBrush" Value="#007bff"/>
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="Cursor" Value="Hand"/>
-        </Style>
-    </Window.Resources>
-
+﻿<Window x:Class="MeetingScheduler.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Weekly Schedule with Summary" Height="500" Width="850">
     <DockPanel>
-        <StackPanel Width="200" DockPanel.Dock="Left" Background="#007bff">
-            <Button Content="👤 Add Employee" Style="{StaticResource SidebarButtonStyle}" Click="AddEmployee_Click"/>
-            <Button Content="📅 Schedule a Meeting" Style="{StaticResource SidebarButtonStyle}" Click="ScheduleMeeting_Click"/>
-            <Button Content="📆 Final Calendar" Style="{StaticResource SidebarButtonStyle}" Click="FinalCalendar_Click"/>
-        </StackPanel>
+        <!-- Schedule DataGrid -->
+        <DataGrid DockPanel.Dock="Top" Height="Auto" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" Margin="10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Time/Date" Binding="{Binding TimeDate}" Width="120"/>
+                <DataGridTextColumn Header="Monday" Binding="{Binding Monday}" Width="*"/>
+                <DataGridTextColumn Header="Tuesday" Binding="{Binding Tuesday}" Width="*"/>
+                <DataGridTextColumn Header="Wednesday" Binding="{Binding Wednesday}" Width="*"/>
+                <DataGridTextColumn Header="Thursday" Binding="{Binding Thursday}" Width="*"/>
+                <DataGridTextColumn Header="Friday" Binding="{Binding Friday}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
-        <Grid DockPanel.Dock="Right" Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <!-- Separator -->
+        <Separator DockPanel.Dock="Top" Height="2" Background="#0026ff"/>
 
-            <!-- Input Form -->
-            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5">
-                <TextBox Width="120" Margin="2" PlaceholderText="Employee name"/>
-                <ComboBox Width="100" Margin="2">
-                    <!-- Day options -->
-                </ComboBox>
-                <TimePicker Width="80" Margin="2"/>
-                <TimePicker Width="80" Margin="2"/>
-                <Button Content="Add" Margin="2"/>
-                <Button Content="Not Available" Margin="2"/>
-            </StackPanel>
-
-            <!-- Schedule Table -->
-            <ListView x:Name="scheduleListView" Grid.Row="1" Margin="5">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="120"/>
-                        <!-- Columns for each day -->
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </Grid>
+        <!-- Meeting Summary List -->
+        <ListView DockPanel.Dock="Bottom" Margin="10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Project" Width="200"/>
+                    <GridViewColumn Header="Day and Time" Width="200"/>
+                    <GridViewColumn Header="Attendees" Width="100"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </DockPanel>
-    </page>
+</Window>

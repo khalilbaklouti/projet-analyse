@@ -1,54 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace tracker
+namespace MeetingScheduler
 {
-    /// <summary>
-    /// Logique d'interaction pour weeklyschedule.xaml
-    /// </summary>
-    public partial class weeklyschedule : Page
+    public partial class MainWindow : Window
     {
-        public weeklyschedule()
+        public ObservableCollection<WeeklySchedule> WeeklySchedules { get; set; }
+        public ObservableCollection<MeetingSummary> MeetingSummaries { get; set; }
+
+        public MainWindow()
         {
             InitializeComponent();
-            EmployeeSchedules = new ObservableCollection<EmployeeSchedule>();
-            scheduleListView.ItemsSource = EmployeeSchedules;
+            WeeklySchedules = new ObservableCollection<WeeklySchedule>();
+            MeetingSummaries = new ObservableCollection<MeetingSummary>();
+
+            // Fill the collections with initial data
+            PopulateWeeklySchedules();
+            PopulateMeetingSummaries();
+
+            // Set the DataContext for data binding
+            DataContext = this;
         }
 
-        private void AddEmployee_Click(object sender, RoutedEventArgs e)
+        private void PopulateWeeklySchedules()
         {
-            // Show input form for new employee
+            // Placeholder for real data
+            WeeklySchedules.Add(new WeeklySchedule { TimeDate = "John" });
+            WeeklySchedules.Add(new WeeklySchedule { TimeDate = "Jane" });
+            WeeklySchedules.Add(new WeeklySchedule { TimeDate = "Pamela" });
+            WeeklySchedules.Add(new WeeklySchedule { TimeDate = "Corey" });
+            WeeklySchedules.Add(new WeeklySchedule { TimeDate = "Ginny" });
+
+            // Ideally, you'd have properties for each day of the week in your WeeklySchedule class
+            // and you would set them here if you have initial data
         }
 
-        private void ScheduleMeeting_Click(object sender, RoutedEventArgs e)
+        private void PopulateMeetingSummaries()
         {
-            // Navigate to scheduling functionality
-        }
+            // Placeholder for real data
+            MeetingSummaries.Add(new MeetingSummary { Project = "Project Kickoff", DayAndTime = "Monday at 10:00 AM", Attendees = "5 Attendees" });
+            MeetingSummaries.Add(new MeetingSummary { Project = "Weekly Sync", DayAndTime = "Wednesday at 2:00 PM", Attendees = "3 Attendees" });
+            MeetingSummaries.Add(new MeetingSummary { Project = "Client Q&A", DayAndTime = "Friday at 1:00 PM", Attendees = "4 Attendees" });
 
-        private void FinalCalendar_Click(object sender, RoutedEventArgs e)
-        {
-            // Show final calendar view
+            // You would bind this collection to your ListView in XAML
+            // e.g., <ListView ItemsSource="{Binding MeetingSummaries}">
         }
-
-        // Additional methods to handle adding, editing, and marking availability
     }
 
-    public class EmployeeSchedule
+    public class WeeklySchedule
     {
-        public string Name { get; set; }
-        // Properties for each day's schedule
+        public string TimeDate { get; set; }
+        public string Monday { get; set; }
+        public string Tuesday { get; set; }
+        public string Wednesday { get; set; }
+        public string Thursday { get; set; }
+        public string Friday { get; set; }
+        // Add more properties for other days if necessary
+    }
+
+    public class MeetingSummary
+    {
+        public string Project { get; set; }
+        public string DayAndTime { get; set; }
+        public string Attendees { get; set; }
     }
 }

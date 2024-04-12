@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\tracker",
+    "\\tracker\\tracker"
   ],
+  "SelectedNode": "\\tracker\\tracker\\MainWindow.xaml",
   "PreviewInSolutionExplorer": false
 }
